@@ -11,7 +11,7 @@ include_once './view/header.php';
         <label>Пароль:
             <input type="password" name="pass" value="" />
         </label>
-        <input type="submit" value="ОК" />
+        <input type="submit" name="bt_access" value="ОК" />
     </form>
 
 </body>

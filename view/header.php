@@ -11,7 +11,7 @@
         input, select, textarea {
             display: block;
             min-width: 200px;
-            margin-bottom: 10px;
+            margin: 10px;
         }
 
         label {
@@ -24,6 +24,11 @@
 
         .message {
             color: green;
+        }
+
+        .check {
+            display: inline-block;
+            min-width: auto;
         }
 
     </style>

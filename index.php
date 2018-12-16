@@ -15,7 +15,6 @@ if (!empty($_POST)) {
     $email = $_POST['usermail'];
     $question = $_POST['question'];
 
-//    var_dump($_POST);
     if (empty($name)) {
         $errors['name'] = 'Вы не указали имя';
     }
