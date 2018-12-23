@@ -1,22 +1,15 @@
     <body>
         <h1>Список вопросов</h1>
 
-        <h2>Категория</h2>
-        <h3>Вопрос1</h3>
-        <p>
-            Первый ответ на Вопрос1
-        </p>
-        <p>
-            Второй ответ на Вопрос1
-        </p>
-
-        <h3>Вопрос2</h3>
-        <p>
-            Первый ответ на Вопрос2
-        </p>
-        <p>
-            Второй ответ на Вопрос2
-        </p>
+        <?php foreach($content as $category):?>
+            <h2><?= $category['catdescr'] ?></h2>
+            <?php foreach($category['questions'] as $question):?>
+                <h3><?= $question['qdescr'] ?></h3>
+                <?php foreach($question['answers'] as $answer):?>
+                    <p><?= $answer['adescr'] ?></p>
+                <?php endforeach;?>
+            <?php endforeach;?>
+        <?php endforeach;?>
 
         <div class="error">
             <?php foreach ($errors as $err_key => $err_value): ?>

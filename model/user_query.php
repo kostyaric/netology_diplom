@@ -4,32 +4,16 @@ include_once __DIR__ . '/connect.php';
 
 class userQuery {
 
-    private $qwery_text;
-
-    function execQuery($params = [], $return_result = true) {
-
-        $connection = new pdoConnection();
-        $pdo = $connection -> getConnection();
-        $pdo_prepare = $pdo -> prepare($this->qwery_text);
-        if (!empty($params)) {
-            $pdo_prepare -> execute($params);
-        }
-        else {
-            $pdo_prepare -> execute();
-        }
-        if ($return_result) {
-            $result = $pdo_prepare -> fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        }
-    }
-
     function getContent() {
 
         $query_text = "
         Select
             categorys.ID        As catID
             , categorys.descr   As catdescr
+            , questions.ID      As qID
+            , questions.qdate   As qdate
             , questions.descr   As qdescr
+            , answers.ID        As aID
             , answers.adate     As adate
             , answers.descr     As adescr
         From categorys
@@ -37,7 +21,7 @@ class userQuery {
             On categorys.ID = questions.categoryID
         Inner Join answers
             On answers.questionID = questions.ID
-        Where questions.status = 3
+        Where questions.status = 1
         Order By
             categorys.descr
             , questions.qdate
@@ -45,12 +29,22 @@ class userQuery {
 
 
         $connection = new pdoConnection($query_text);
-        $arr_answer = $connection ->execQuery();
+        $arr_content = $connection ->execQuery();
 
-        foreach ($arr_answer as $value) {
+        $content = [];
+        foreach ($arr_content as $content_row) {
+
+            $content[$content_row['catID']]['catdescr'] = $content_row['catdescr'];
+
+            $content[$content_row['catID']]['questions'][$content_row['qID']]['qdate'] = $content_row['qdate'];
+            $content[$content_row['catID']]['questions'][$content_row['qID']]['qdescr'] = $content_row['qdescr'];
+
+            $content[$content_row['catID']]['questions'][$content_row['qID']]['answers'][$content_row['aID']]['adate'] = $content_row['adate'];
+            $content[$content_row['catID']]['questions'][$content_row['qID']]['answers'][$content_row['aID']]['adescr'] = $content_row['adescr'];
 
         }
 
+        return $content;
     }
 
     function getCategoryList() {
@@ -83,7 +77,6 @@ class userQuery {
         $connection = new pdoConnection($query_text);
         $connection ->execQuery($user_params, FALSE);
 
-//        $this->execQuery($user_params, FALSE);
     }
 
 
@@ -101,9 +94,8 @@ class userQuery {
         $params['par_email'] = $email;
 
         $connection = new pdoConnection($query_text);
-        $connection ->execQuery($params);
+        return $connection ->execQuery($params);
 
-//        return $this->execQuery($params);
     }
 
     function saveQuestion($category, $name, $email, $question) {
@@ -125,7 +117,7 @@ class userQuery {
         ";
 
         $params['par_UserID'] = $userID;
-        $params['par_categoryID'] = (int)$category;
+        $params['par_categoryID'] = $category;
         $params['par_descr'] = $question;
 
         $connection = new pdoConnection($query_text);
@@ -139,7 +131,8 @@ class userQuery {
 }
 
 //$query = new userQuery();
-//$arrCat = $query->getCategoryList();
+//$arrCat = $query->saveQuestion('1', 'lklk', 'lk', 'Что?', 0);
+//$query->saveQuestion('1', 'lklk', 'lk', 'Что?', 0);
 //var_dump($arrCat);
 
 ?>

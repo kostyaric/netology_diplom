@@ -1,7 +1,7 @@
 <?php
 
 include_once __DIR__ . '/model/admin_query.php';
-include_once __DIR__ . '/model/adminfunction.php';
+//include_once __DIR__ . '/model/adminfunction.php';
 
 session_start();
 $query = new adminQuery();
@@ -46,6 +46,37 @@ if (isset($_SESSION['name'])) {
             $query->addCategory($title);
 
         }
+        elseif (isset($_POST['bt_edit_question'])) {
+
+            $aID = $_POST['aID'];
+            $qID = $_POST['qID'];
+            $answer = $_POST['answer'];
+            $question = $_POST['question'];
+            $userID = $_POST['user'];
+            $categoryID = $_POST['category'];
+            $status = $_POST['status'];
+
+            if(empty($aID) && !empty($answer)) {
+                $query->addAnswer($qID, $answer);
+            }
+            elseif(empty($answer)) {
+                $query->deleteAnswer($aID);
+            }
+            else {
+                $query->changeAnswer($aID, $answer);
+            }
+
+            if (!empty($qID)) {
+                $query -> changeQuestion($qID, $userID, $categoryID, $question, $status);
+            }
+
+            $descr = $query->getCategoryDescrByID($_POST['category_in']);
+            $qlist = $query->getCategoryQuestions($_POST['category_in']);
+
+            include_once __DIR__ . '/view/category_questions.php';
+            exit;
+
+        }
 
     }
 
@@ -64,6 +95,8 @@ if (isset($_SESSION['name'])) {
         }
         elseif ($_GET['act'] === 'del_category') {
 
+            $query->deleteCategory($_GET['id']);
+
         }
         elseif ($_GET['act'] === 'edit_category') {
 
@@ -80,6 +113,23 @@ if (isset($_SESSION['name'])) {
             $category_list = $query->getCategoryList();
             $qInfo = $query ->getQuestionInfo($id);
             include_once __DIR__ . '/view/question_edit.php';
+            exit;
+
+        }
+        elseif ($_GET['act'] === 'del_question') {
+
+            $query->deleteQuestion($_GET['id']);
+
+            $descr = $query->getCategoryDescrByID($_GET['catID']);
+            $qlist = $query->getCategoryQuestions($_GET['catID']);
+            include_once __DIR__ . '/view/category_questions.php';
+            exit;
+
+        }
+        elseif ($_GET['act'] === 'witout_answer') {
+
+            $qlist = $query->getQuestionWithoutAnswer();
+            include_once __DIR__ . '/view/without_answer.php';
             exit;
 
         }

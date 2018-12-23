@@ -23,7 +23,7 @@ include_once __DIR__ . '/header.php';
     ?>
     <p>
     Дата создания: <?= $question['qdate']; ?>; Статус: <?= $status ?>;
-    <a href="./admin.php?id=<?= $question['ID'] ?>&act=del_question">Удалить</a>
+    <a href="./admin.php?catID=<?= $question['categoryID']?>&id=<?= $question['ID'] ?>&act=del_question">Удалить</a>
     <a href="./admin.php?id=<?= $question['ID'] ?>&act=edit_question">Редактировать</a><br>
 
     <?= $question['qdescr'] ?>

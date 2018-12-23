@@ -12,7 +12,6 @@ include_once './view/header.php';
         <?php endforeach; ?>
     </div>
 
-
     <h2>Администраторы</h2>
     <?php foreach ($adminlist as $admin):?>
     <p>
@@ -37,15 +36,16 @@ include_once './view/header.php';
     </form>
 
     <h2>Категории</h2>
+    <a href="./admin.php?act=witout_answer">Вывести список вопросов без ответа</a>
     <?php foreach ($categorylist as $category):?>
         <h3><?= $category['descr']?></h3>
+        <p>
+            Количество вопросов: <?= $category['QuestionNum'] ?>; &nbsp;
+            Опубликовано: <?= $category['QuestionPublished'] ?>; &nbsp;
+            Без ответа: <?= $category['WithoutAnswer'] ?>
+        </p>
         <a href="./admin.php?id=<?= $category['ID'] ?>&act=del_category">Удалить</a>
         <a href="./admin.php?id=<?= $category['ID'] ?>&act=edit_category">Редактировать</a>
-    <p>
-        Количество вопросов: <?= $category['QuestionNum'] ?><br>
-        Опубликовано: <?= $category['QuestionPublished'] ?><br>
-        Без ответа: <?= $category['WithoutAnswer'] ?>
-    </p>
     <?php endforeach; ?>
 
     <form action="./admin.php" method="POST">

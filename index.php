@@ -1,6 +1,5 @@
 <?php
 include_once __DIR__ . '/model/user_query.php';
-
 include_once './view/header.php';
 
 $query = new userQuery();
@@ -33,6 +32,7 @@ if (!empty($_POST)) {
     }
 }
 
+$content = $query->getContent();
 include_once __DIR__ . '/view/content.php';
 
 ?>

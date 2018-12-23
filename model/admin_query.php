@@ -154,40 +154,37 @@ class adminQuery {
 
     }
 
-    function getCategoryQuestions($categoryID) {
+    function deleteCategory($ID) {
 
-//        $query_text = "
-//        Select
-//            categorys.ID        As catID
-//            , categorys.descr   As catdescr
-//            , questions.qdate   As qdate
-//            , questions.userID  As userID
-//            , questions.descr   As qdescr
-//            , users.name        As userName
-//            , answers.adate     As adate
-//            , answers.descr     As adescr
-//        From categorys
-//        Left Join questions
-//            On categorys.ID = questions.categoryID
-//        Left Join users
-//            On questions.userID = users.ID
-//        Left Join answers
-//            On answers.questionID = questions.ID
-//        Where categorys.ID = :par_categoryID
-//        Order By
-//            categorys.ID
-//            , questions.qdate
-//            , answers.adate
-//        ";
+        $query_text = "
+        Delete
+            categorys, questions, answers
+        From categorys
+            Left Join questions
+                On categorys.ID = questions.categoryID
+            Left Join answers
+                On questions.ID = answers.questionID
+        Where categorys.ID = :par_ID
+        ";
+
+        $params['par_ID'] = $ID;
+
+        $connection = new pdoConnection($query_text);
+        $connection -> execQuery($params, FALSE);
+
+    }
+
+    function getCategoryQuestions($categoryID) {
 
         $query_text = "
         Select
-            questions.ID        As ID
-            , questions.qdate   As qdate
-            , questions.descr   As qdescr
-            , questions.status  As qstatus
-            , users.id          As userID
-            , users.name        As userName
+            questions.ID            As ID
+            , questions.qdate       As qdate
+            , questions.descr       As qdescr
+            , questions.status      As qstatus
+            , questions.categoryID  As categoryID
+            , users.id              As userID
+            , users.name            As userName
         From questions
         Left Join users
             On questions.userID = users.id
@@ -208,9 +205,11 @@ class adminQuery {
         $query_text = "
         Select
             questions.categoryID    As catID
+            , questions.ID          As qID
             , questions.qdate       As qdate
             , questions.descr       As qdescr
             , questions.userID      As userID
+            , questions.status      As qstatus
             , users.name            As userName
             , answers.ID            As aID
             , answers.adate         As adate
@@ -228,8 +227,126 @@ class adminQuery {
         $connection = new pdoConnection($query_text);
         return $connection ->execQuery($params);
 
+    }
+
+    function changeQuestion($ID, $userID, $categoryID, $descr, $status) {
+
+        $query_text = "
+        Update questions
+        Set
+            userID = :par_userID
+            , categoryID = :par_categoryID
+            , descr = :par_descr
+            , status = :par_status
+        Where
+            ID = :par_ID
+        ";
+
+        $params['par_ID'] = $ID;
+        $params['par_userID'] = $userID;
+        $params['par_categoryID'] = $categoryID;
+        $params['par_descr'] = $descr;
+        $params['par_status'] = $status;
+
+        $connection = new pdoConnection($query_text);
+        return $connection ->execQuery($params, FALSE);
 
     }
+
+    function deleteQuestion($qID) {
+
+        $query_text = "
+        Delete
+            questions, answers
+        From questions
+            Left Join answers
+                On questions.ID = answers.questionID
+        Where questions.ID = :par_qID
+        ";
+
+        $params['par_qID'] = $qID;
+
+        $connection = new pdoConnection($query_text);
+        $connection -> execQuery($params, FALSE);
+
+    }
+
+        function getQuestionWithoutAnswer() {
+
+        $query_text = "
+        Select
+            categorys.ID        As catID
+            , categorys.descr   As catdescr
+            , questions.ID      As qID
+            , questions.qdate   As qdate
+            , questions.descr   As qdescr
+        From categorys
+        Inner Join questions
+            On categorys.ID = questions.categoryID
+        Left Join answers
+            On answers.questionID = questions.ID
+        Where answers.ID Is NULL
+        Order By
+            questions.qdate";
+
+        $connection = new pdoConnection($query_text);
+        return $connection ->execQuery();
+
+    }
+
+
+    function addAnswer($questionID, $descr) {
+
+        $query_text = "
+        Insert Into answers
+            (questionID, adate, descr)
+        Values
+            (:par_questionID, CurDate(), :par_descr)
+        ";
+
+        $params['par_questionID'] = $questionID;
+        $params['par_descr'] = $descr;
+
+        $connection = new pdoConnection($query_text);
+        return $connection ->execQuery($params, FALSE);
+
+    }
+
+    function changeAnswer($ID, $answer) {
+
+        $query_text = "
+        Update answers
+        Set
+            descr = :par_answer
+            , adate = CurDate()
+        Where
+            ID = :par_ID
+        ";
+
+        $params['par_ID'] = $ID;
+        $params['par_answer'] = $answer;
+
+        $connection = new pdoConnection($query_text);
+        return $connection ->execQuery($params, FALSE);
+
+    }
+
+    function deleteAnswer($ID) {
+
+        $query_text = "
+        Delete
+        From answers
+        Where
+            ID = :par_ID
+        ";
+
+        $params['par_ID'] = $ID;
+
+        $connection = new pdoConnection($query_text);
+        return $connection -> execQuery($params, FALSE);
+
+    }
+
 
     function getUserList() {
 
