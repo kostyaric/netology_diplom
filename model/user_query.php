@@ -1,7 +1,5 @@
 <?php
 
-include_once __DIR__ . '/connect.php';
-
 class userQuery {
 
     function getContent() {
@@ -123,16 +121,8 @@ class userQuery {
         $connection = new pdoConnection($query_text);
         $connection ->execQuery($params, FALSE);
 
-
-//        $this->execQuery($params, FALSE);
-
     }
 
 }
-
-//$query = new userQuery();
-//$arrCat = $query->saveQuestion('1', 'lklk', 'lk', 'Что?', 0);
-//$query->saveQuestion('1', 'lklk', 'lk', 'Что?', 0);
-//var_dump($arrCat);
 
 ?>

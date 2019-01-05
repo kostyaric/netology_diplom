@@ -1,7 +1,5 @@
 <?php
 
-include_once __DIR__ . '/connect.php';
-
 class adminQuery {
 
     function getAdminList($id = '') {
@@ -388,8 +386,3 @@ class adminQuery {
     }
 
 }
-
-//$query = new adminQuery();
-//$adm = $query->getAdminList('2');
-//var_dump($adm)
-?>

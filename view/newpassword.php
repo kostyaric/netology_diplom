@@ -1,9 +1,3 @@
-<?php
-include_once __DIR__ . '/header.php';
-?>
-
-<body>
-
     <form action="./admin.php" method="POST">
         <label>ID:
             <input type="text" name="id" value="<?= $id ?>" readonly>
@@ -16,6 +10,3 @@ include_once __DIR__ . '/header.php';
         </label>
         <input type="submit" name="bt_change_pass" value="ОК" />
     </form>
-
-</body>
-</html>

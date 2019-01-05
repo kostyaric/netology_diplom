@@ -1,10 +1,5 @@
-<?php
-include_once __DIR__ . '/header.php';
-?>
-
-<body>
-
-    <h1>Редактирование вопросов "<?= $descr ?>"</h1>
+    <h2>Редактирование вопросов в категории "<?= $descr ?>"</h2>
+    <table>
     <?php foreach ($qlist as $question):
 
         switch ($question['qstatus']) {
@@ -21,14 +16,13 @@ include_once __DIR__ . '/header.php';
             $status = 'Статус неопределен';
         }
     ?>
-    <p>
-    Дата создания: <?= $question['qdate']; ?>; Статус: <?= $status ?>;
-    <a href="./admin.php?catID=<?= $question['categoryID']?>&id=<?= $question['ID'] ?>&act=del_question">Удалить</a>
-    <a href="./admin.php?id=<?= $question['ID'] ?>&act=edit_question">Редактировать</a><br>
-
-    <?= $question['qdescr'] ?>
-    </p>
+        <tr>
+            <td class="strong"><?= $question['qdescr'] ?></td>
+            <td><a href="./admin.php?catID=<?= $question['categoryID']?>&id=<?= $question['ID'] ?>&act=del_question">Удалить</a></td>
+            <td><a href="./admin.php?id=<?= $question['ID'] ?>&act=edit_question">Редактировать</a></td>
+        </tr>
+        <tr>
+            <td colspan="3">Дата создания: <?= $question['qdate']; ?>; Статус: <?= $status ?>;</td>
+        </tr>
     <?php endforeach; ?>
-
-</body>
-</html>
+    </table>

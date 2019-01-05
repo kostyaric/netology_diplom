@@ -1,10 +1,5 @@
-<?php
-include_once __DIR__ . '/header.php';
-?>
-
-<body>
-    <h1>Редактируем вопрос-ответ</h1>
-    <form action="./admin.php" method="POST">
+    <h2>Редактируем вопрос-ответ</h2>
+    <form class="varticalalign" action="./admin.php" method="POST">
 
         <input type="hidden" name="category_in" value="<?= $qInfo[0]['catID'] ?>">
         <label>Категория:
@@ -41,8 +36,3 @@ include_once __DIR__ . '/header.php';
         <input type="submit" name="bt_edit_question" value="Записать">
 
     </form>
-
-    <?php include_once __DIR__ . '/logout.php'; ?>
-
-</body>
-</html>

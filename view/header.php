@@ -1,35 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>Вход</title>
+    <title>Администрирование</title>
+    <link rel="stylesheet" href="./view/admin.css">
     <meta charset="utf-8">
-    <style>
-        fieldset {
-            display: inline-block;
-        }
-
-        input, select, textarea {
-            display: block;
-            min-width: 200px;
-            margin: 10px;
-        }
-
-        label {
-            margin-bottom: 15px;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .message {
-            color: green;
-        }
-
-        .check {
-            display: inline-block;
-            min-width: auto;
-        }
-
-    </style>
 </head>
+<body>
+    <h1>Инструменты администратора</h1>
+    <ul class="menu">
+        <li>
+            <a href="./admin.php?act=menu&id=admin">Администраторы</a>
+        </li>
+        <li>
+            <a href="./admin.php?act=menu&id=category">Категории</a>
+        </li>
+        <li>
+            <a href="./admin.php?act=witout_answer">Вопросы без ответа</a>
+        </li>
+    </ul>

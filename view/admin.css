@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+fieldset {
+    display: inline-block;
+    margin-top: 20px;
+    text-align: left;
+}
+
+form {
+    display: block;
+    margin: 20px auto;
+}
+
+input, select, textarea {
+    display: block;
+    min-width: 200px;
+    margin: 10px;
+}
+
+table {
+    margin: auto;
+}
+
+td {
+    padding: 7px;
+    font-size: 18px;
+    text-align: left;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+section {
+    text-align: center;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+.message {
+    color: green;
+}
+
+.check {
+    display: inline-block;
+    min-width: auto;
+}
+
+.menu {
+    margin: 0 auto;
+    padding: 0;
+    display: block;
+    background-color: aquamarine;
+    text-align: center;
+}
+
+.menu li {
+    margin: 10px;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 900;
+    color: blue;
+}
+
+.menu a {
+    text-decoration: none;
+}
+
+.strong {
+    font-weight: 900;
+}
+
+.logout {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+}

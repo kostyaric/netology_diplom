@@ -1,7 +1,10 @@
-<?php
-include_once './view/header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="./view/admin.css">
+    <meta charset="utf-8">
+</head>
 <body>
 
     <form action="./admin.php" method="POST">

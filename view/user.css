@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+fieldset {
+    display: inline-block;
+    margin-top: 20px;
+    text-align: left;
+}
+
+input, select, textarea {
+    display: block;
+    min-width: 200px;
+    margin: 10px;
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: blue;
+    background-color: aquamarine;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h3 {
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+p {
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+.message {
+    color: green;
+}
+
+.question {
+    margin: 5px 0 5px 20px;
+    padding: 3px 20px;
+    background-color: lightcyan;
+}

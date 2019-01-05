@@ -1,39 +1,20 @@
 <?php
 include_once __DIR__ . '/model/user_query.php';
-include_once './view/header.php';
-
-$query = new userQuery();
-$category_list = $query->getCategoryList();
+include_once __DIR__ . '/controllers/usercontrol.php';
+include_once __DIR__ . '/model/connect.php';
 
 $message = '';
 $errors = array();
 
+$controller = new usercontrol();
+
 if (!empty($_POST)) {
 
-    $name = $_POST['username'];
-    $email = $_POST['usermail'];
-    $question = $_POST['question'];
+    $controller->addQuestion();
 
-    if (empty($name)) {
-        $errors['name'] = 'Вы не указали имя';
-    }
-
-    if (empty($email)) {
-        $errors['mail'] = 'Вы не указали адрес электронной почты';
-    }
-
-    if (empty($question)) {
-        $errors['question'] = 'Не заполнено поле с вопросом';
-    }
-
-    if (count($errors) == 0) {
-        $query ->saveQuestion($_POST['category'], $name, $email, $question);
-        $message = 'Ваш вопрос будет опубликован после проверки и утверждения администратором';
-    }
 }
 
-$content = $query->getContent();
-include_once __DIR__ . '/view/content.php';
+$controller->showContent();
 
 ?>
 

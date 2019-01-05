@@ -1,13 +1,22 @@
-    <body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Вопросы и ответы</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./view/user.css">
+</head>
+<body>
         <h1>Список вопросов</h1>
 
         <?php foreach($content as $category):?>
             <h2><?= $category['catdescr'] ?></h2>
             <?php foreach($category['questions'] as $question):?>
+            <div class="question">
                 <h3><?= $question['qdescr'] ?></h3>
                 <?php foreach($question['answers'] as $answer):?>
                     <p><?= $answer['adescr'] ?></p>
                 <?php endforeach;?>
+            </div>
             <?php endforeach;?>
         <?php endforeach;?>
 
