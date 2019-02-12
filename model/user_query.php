@@ -5,7 +5,7 @@ class userQuery {
     function getContent() {
 
         $query_text = "
-        Select
+        SELECT
             categorys.ID        As catID
             , categorys.descr   As catdescr
             , questions.ID      As qID
@@ -14,13 +14,13 @@ class userQuery {
             , answers.ID        As aID
             , answers.adate     As adate
             , answers.descr     As adescr
-        From categorys
-        Inner Join questions
-            On categorys.ID = questions.categoryID
-        Inner Join answers
-            On answers.questionID = questions.ID
-        Where questions.status = 1
-        Order By
+        FROM categorys
+        INNER JOIN questions
+            ON categorys.ID = questions.categoryID
+        INNER JOIN answers
+            ON answers.questionID = questions.ID
+        WHERE questions.status = 1
+        ORDER BY
             categorys.descr
             , questions.qdate
             , answers.adate";
@@ -48,11 +48,11 @@ class userQuery {
     function getCategoryList() {
 
         $query_text = "
-        Select
+        SELECT
             categorys.ID        As ID
             , categorys.descr   As descr
-        From categorys
-        Order By
+        FROM categorys
+        ORDER BY
             categorys.descr";
 
         $connection = new pdoConnection($query_text);
@@ -63,9 +63,9 @@ class userQuery {
     function createUser($name, $email) {
 
         $query_text = "
-        Insert Into
+        INSERT INTO
             users(name, email)
-        values
+        VALUES
             (:par_name, :par_email)
         ";
 
@@ -81,12 +81,12 @@ class userQuery {
     function getUserByMail($email) {
 
         $query_text = "
-        Select
+        SELECT
             id
             , name
             , email
-        From users
-        Where email = :par_email
+        FROM users
+        WHERE email = :par_email
         ";
 
         $params['par_email'] = $email;
@@ -108,9 +108,9 @@ class userQuery {
         $userID = $user[0]['id'];
 
         $query_text = "
-        Insert Into
+        INSERT INTO
             questions(qdate, userID, categoryID, descr, status)
-        values
+        VALUES
             (CURDATE(), :par_UserID, :par_categoryID, :par_descr, 0)
         ";
 
@@ -124,5 +124,3 @@ class userQuery {
     }
 
 }
-
-?>

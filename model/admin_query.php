@@ -5,11 +5,11 @@ class adminQuery {
     function getAdminList($id = '') {
 
         $query_text = "
-        Select
+        SELECT
             id
             , login
-        From admins
-        " . ($id === '' ? "" : "Where id = :par_id");
+        FROM admins
+        " . ($id === '' ? "" : "WHERE id = :par_id");
 
         $connection = new pdoConnection($query_text);
 
@@ -26,9 +26,9 @@ class adminQuery {
     function addAdmin($login, $pass) {
 
         $query_text = "
-        Insert Into
+        INSERT INTO
             admins(login, password)
-        Values(:par_login, :par_pass)
+        VALUES(:par_login, :par_pass)
         ";
 
         $params['par_login'] = $login;
@@ -42,9 +42,9 @@ class adminQuery {
     function deleteAdmin($id) {
 
         $query_text = "
-        delete From
+        DELETE FROM
             admins
-        Where id = :par_id
+        WHERE id = :par_id
         ";
 
         $params['par_id'] = $id;
@@ -57,9 +57,9 @@ class adminQuery {
     function changeAdminPass($id, $pass) {
 
         $query_text = "
-        Update admins
-            Set password = :par_pass
-        Where id = :par_id
+        UPDATE admins
+            SET password = :par_pass
+        WHERE id = :par_id
         ";
 
         $params['par_id'] = $id;
@@ -73,10 +73,10 @@ class adminQuery {
     function getCategoryDescrByID($id) {
 
         $query_text = "
-        Select
+        SELECT
             descr
-        From categorys
-        Where ID = :par_ID
+        FROM categorys
+        WHERE ID = :par_ID
         ";
 
         $params['par_ID'] = $id;
@@ -98,36 +98,36 @@ class adminQuery {
     function getCategoryList() {
 
         $query_text = "
-        Select
+        SELECT
             categorys.ID
             , categorys.descr
             , COUNT(questions.ID) AS QuestionNum
-            , SUM(Case
-                    When questions.status = 0
-                        Then 1
-                    Else 0
-                End) AS QuestionAdded
-            , SUM(Case
-                    When questions.status = 1
-                        Then 1
-                    Else 0
-                End) AS QuestionPublished
-            , SUM(Case
-                    When questions.status = 2
-                        Then 1
-                    Else 0
-                End) QuestionHidden
-            , SUM(Case
-                    When questions.ID IS Not NULL And answers.ID IS NULL
-                        Then 1
-                    Else 0
-                End) WithoutAnswer
-        From categorys
-            Left Join questions
-                On categorys.ID = questions.categoryID
-            Left Join answers
-                On questions.ID = answers.questionID
-        Group By
+            , SUM(CASE
+                    WHEN questions.status = 0
+                        THEN 1
+                    ELSE 0
+                END) AS QuestionAdded
+            , SUM(CASE
+                    WHEN questions.status = 1
+                        THEN 1
+                    ELSE 0
+                END) AS QuestionPublished
+            , SUM(CASE
+                    WHEN questions.status = 2
+                        THEN 1
+                    ELSE 0
+                END) QuestionHidden
+            , SUM(CASE
+                    WHEN questions.ID IS Not NULL And answers.ID IS NULL
+                        THEN 1
+                    ELSE 0
+                END) WithoutAnswer
+        FROM categorys
+            LEFT JOIN questions
+                ON categorys.ID = questions.categoryID
+            LEFT JOIN answers
+                ON questions.ID = answers.questionID
+        GROUP BY
             categorys.ID
             , categorys.descr
         ";
@@ -140,9 +140,9 @@ class adminQuery {
     function addCategory($title) {
 
         $query_text = "
-        Insert Into
+        INSERT INTO
             categorys(descr)
-        Values(:par_title)
+        VALUES(:par_title)
         ";
 
         $params['par_title'] = $title;
@@ -155,14 +155,14 @@ class adminQuery {
     function deleteCategory($ID) {
 
         $query_text = "
-        Delete
+        DELETE
             categorys, questions, answers
-        From categorys
-            Left Join questions
-                On categorys.ID = questions.categoryID
-            Left Join answers
-                On questions.ID = answers.questionID
-        Where categorys.ID = :par_ID
+        FROM categorys
+            LEFT JOIN questions
+                ON categorys.ID = questions.categoryID
+            LEFT JOIN answers
+                ON questions.ID = answers.questionID
+        WHERE categorys.ID = :par_ID
         ";
 
         $params['par_ID'] = $ID;
@@ -175,7 +175,7 @@ class adminQuery {
     function getCategoryQuestions($categoryID) {
 
         $query_text = "
-        Select
+        SELECT
             questions.ID            As ID
             , questions.qdate       As qdate
             , questions.descr       As qdescr
@@ -183,11 +183,11 @@ class adminQuery {
             , questions.categoryID  As categoryID
             , users.id              As userID
             , users.name            As userName
-        From questions
-        Left Join users
-            On questions.userID = users.id
-        Where questions.categoryID = :par_categoryID
-        Order By
+        FROM questions
+        LEFT JOIN users
+            ON questions.userID = users.id
+        WHERE questions.categoryID = :par_categoryID
+        ORDER BY
             questions.qdate
         ";
 
@@ -201,7 +201,7 @@ class adminQuery {
     function getQuestionInfo($id) {
 
         $query_text = "
-        Select
+        SELECT
             questions.categoryID    As catID
             , questions.ID          As qID
             , questions.qdate       As qdate
@@ -212,12 +212,12 @@ class adminQuery {
             , answers.ID            As aID
             , answers.adate         As adate
             , answers.descr         As adescr
-        From questions
-        Left Join users
-            On questions.userID = users.ID
-        Left Join answers
-            On answers.questionID = questions.ID
-        Where questions.ID = :par_ID
+        FROM questions
+        LEFT JOIN users
+            ON questions.userID = users.ID
+        LEFT JOIN answers
+            ON answers.questionID = questions.ID
+        WHERE questions.ID = :par_ID
         ";
 
         $params['par_ID'] = $id;
@@ -230,13 +230,13 @@ class adminQuery {
     function changeQuestion($ID, $userID, $categoryID, $descr, $status) {
 
         $query_text = "
-        Update questions
-        Set
+        UPDATE questions
+        SET
             userID = :par_userID
             , categoryID = :par_categoryID
             , descr = :par_descr
             , status = :par_status
-        Where
+        WHERE
             ID = :par_ID
         ";
 
@@ -254,12 +254,12 @@ class adminQuery {
     function deleteQuestion($qID) {
 
         $query_text = "
-        Delete
+        DELETE
             questions, answers
-        From questions
-            Left Join answers
-                On questions.ID = answers.questionID
-        Where questions.ID = :par_qID
+        FROM questions
+            LEFT JOIN answers
+                ON questions.ID = answers.questionID
+        WHERE questions.ID = :par_qID
         ";
 
         $params['par_qID'] = $qID;
@@ -272,19 +272,19 @@ class adminQuery {
         function getQuestionWithoutAnswer() {
 
         $query_text = "
-        Select
+        SELECT
             categorys.ID        As catID
             , categorys.descr   As catdescr
             , questions.ID      As qID
             , questions.qdate   As qdate
             , questions.descr   As qdescr
-        From categorys
-        Inner Join questions
-            On categorys.ID = questions.categoryID
-        Left Join answers
-            On answers.questionID = questions.ID
-        Where answers.ID Is NULL
-        Order By
+        FROM categorys
+        INNER JOIN questions
+            ON categorys.ID = questions.categoryID
+        LEFT JOIN answers
+            ON answers.questionID = questions.ID
+        WHERE answers.ID Is NULL
+        ORDER BY
             questions.qdate";
 
         $connection = new pdoConnection($query_text);
@@ -296,9 +296,9 @@ class adminQuery {
     function addAnswer($questionID, $descr) {
 
         $query_text = "
-        Insert Into answers
+        INSERT INTO answers
             (questionID, adate, descr)
-        Values
+        VALUES
             (:par_questionID, CurDate(), :par_descr)
         ";
 
@@ -313,11 +313,11 @@ class adminQuery {
     function changeAnswer($ID, $answer) {
 
         $query_text = "
-        Update answers
-        Set
+        UPDATE answers
+        SET
             descr = :par_answer
             , adate = CurDate()
-        Where
+        WHERE
             ID = :par_ID
         ";
 
@@ -332,9 +332,9 @@ class adminQuery {
     function deleteAnswer($ID) {
 
         $query_text = "
-        Delete
-        From answers
-        Where
+        DELETE
+        FROM answers
+        WHERE
             ID = :par_ID
         ";
 
@@ -349,11 +349,11 @@ class adminQuery {
     function getUserList() {
 
         $query_text = "
-        Select
+        SELECT
             id
             , name
             , email
-        From users
+        FROM users
         ";
 
         $connection = new pdoConnection($query_text);
@@ -364,10 +364,10 @@ class adminQuery {
     function checkUser($login, $pass) {
 
         $query_text = "
-        Select
+        SELECT
             password
-        From admins
-        Where login = :par_login
+        FROM admins
+        WHERE login = :par_login
         ";
 
         $params['par_login'] = $login;

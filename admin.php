@@ -8,8 +8,6 @@ session_start();
 $query = new adminQuery();
 $controller = new admincontrol();
 
-$errors = array();
-
 if (isset($_SESSION['name'])) {
 
     include_once './view/header.php';
@@ -75,4 +73,3 @@ if (isset($_SESSION['name'])) {
 else {
     $controller->authorise();
 }
-?>

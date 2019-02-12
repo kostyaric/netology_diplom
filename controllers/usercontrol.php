@@ -3,45 +3,44 @@
 class usercontrol {
 
     private $query;
+    private $errors;
+    private $message;
 
     function __construct() {
         $this->query = new userQuery();
+        $this->errors = [];
+        $this->message = '';
     }
 
     function addQuestion() {
-
-        global $errors;
-        global $message;
 
         $name = $_POST['username'];
         $email = $_POST['usermail'];
         $question = $_POST['question'];
 
         if (empty($name)) {
-            $errors['name'] = 'Вы не указали имя';
+            $this->errors['name'] = 'Вы не указали имя';
         }
 
         if (empty($email)) {
-            $errors['mail'] = 'Вы не указали адрес электронной почты';
+            $this->errors['mail'] = 'Вы не указали адрес электронной почты';
         }
 
         if (empty($question)) {
-            $errors['question'] = 'Не заполнено поле с вопросом';
+            $this->errors['question'] = 'Не заполнено поле с вопросом';
         }
 
-        if (count($errors) == 0) {
+        if (count($this->errors) == 0) {
             $this->query ->saveQuestion($_POST['category'], $name, $email, $question);
-            $message = 'Ваш вопрос будет опубликован после проверки и утверждения администратором';
+            $this->message = 'Ваш вопрос будет опубликован после проверки и утверждения администратором';
         }
 
     }
 
     function showContent() {
 
-        global $content;
-        global $category_list;
-        global $errors;
-        global $message;
+        $errors = $this->errors;
+        $message = $this->message;
 
         $content = $this->query->getContent();
         $category_list = $this->query->getCategoryList();

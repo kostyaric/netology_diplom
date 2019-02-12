@@ -10,7 +10,7 @@ class admincontrol {
 
     function addAdmin() {
 
-        global $errors;
+        $errors = [];
         $login = $_POST['login'];
         $pass = $_POST['pass'];
 
@@ -60,7 +60,7 @@ class admincontrol {
 
     function addCategory() {
 
-        global $errors;
+        $errors = [];
         $title = $_POST['title'];
         if (empty($title)) {
             $errors['title'] = 'Вы не указали название категории';
