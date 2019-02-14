@@ -1,8 +1,13 @@
 <?php
 
-class adminQuery {
-
-    function getAdminList($id = '') {
+class AdminQuery
+{
+    /*
+    Получает из базы данных id и логин администроторов и возвращает массив с результатом
+    Если передан id, то возвращаются данные для администратора с указанным id, иначе для всех администраторов
+    */
+    function getAdminList($id = '')
+    {
 
         $query_text = "
         SELECT
@@ -11,7 +16,7 @@ class adminQuery {
         FROM admins
         " . ($id === '' ? "" : "WHERE id = :par_id");
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
 
         if ($id === '') {
             return $connection ->execQuery();
@@ -23,7 +28,9 @@ class adminQuery {
         }
     }
 
-    function addAdmin($login, $pass) {
+    /*Записывает логин и пароль администратора в базу данных*/
+    function addAdmin($login, $pass)
+    {
 
         $query_text = "
         INSERT INTO
@@ -34,12 +41,14 @@ class adminQuery {
         $params['par_login'] = $login;
         $params['par_pass'] = $pass;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($params, FALSE);
 
     }
 
-    function deleteAdmin($id) {
+    /*Удаляет администратора из базы данных*/
+    function deleteAdmin($id)
+    {
 
         $query_text = "
         DELETE FROM
@@ -49,12 +58,14 @@ class adminQuery {
 
         $params['par_id'] = $id;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($params, FALSE);
 
     }
 
-    function changeAdminPass($id, $pass) {
+    /*изменяет пароль администратора в базе данных*/
+    function changeAdminPass($id, $pass)
+    {
 
         $query_text = "
         UPDATE admins
@@ -65,12 +76,14 @@ class adminQuery {
         $params['par_id'] = $id;
         $params['par_pass'] = $pass;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($params, FALSE);
 
     }
 
-    function getCategoryDescrByID($id) {
+    /*получает из базы данных описание категории по ее id*/
+    function getCategoryDescrByID($id)
+    {
 
         $query_text = "
         SELECT
@@ -81,7 +94,7 @@ class adminQuery {
 
         $params['par_ID'] = $id;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $category = $connection ->execQuery($params);
 
         if (empty($category)) {
@@ -95,7 +108,9 @@ class adminQuery {
 
     }
 
-    function getCategoryList() {
+    /*Получает из базы данных описание категории и количество вопросов и ответов в ней*/
+    function getCategoryList()
+    {
 
         $query_text = "
         SELECT
@@ -132,12 +147,14 @@ class adminQuery {
             , categorys.descr
         ";
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery();
 
     }
 
-    function addCategory($title) {
+    /*Добавляет категорию в базу данных*/
+    function addCategory($title)
+    {
 
         $query_text = "
         INSERT INTO
@@ -147,12 +164,14 @@ class adminQuery {
 
         $params['par_title'] = $title;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($params, FALSE);
 
     }
 
-    function deleteCategory($ID) {
+    /*Удаляет категорию из базы данных*/
+    function deleteCategory($ID)
+    {
 
         $query_text = "
         DELETE
@@ -167,12 +186,14 @@ class adminQuery {
 
         $params['par_ID'] = $ID;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection -> execQuery($params, FALSE);
 
     }
 
-    function getCategoryQuestions($categoryID) {
+    /*Получает перечень вопросов по ID категории*/
+    function getCategoryQuestions($categoryID)
+    {
 
         $query_text = "
         SELECT
@@ -193,12 +214,14 @@ class adminQuery {
 
         $params['par_categoryID'] = $categoryID;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params);
 
     }
 
-    function getQuestionInfo($id) {
+    /*Получает расширенную информацию о вопросе и ответе по id вопроса*/
+    function getQuestionInfo($id)
+    {
 
         $query_text = "
         SELECT
@@ -222,12 +245,14 @@ class adminQuery {
 
         $params['par_ID'] = $id;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params);
 
     }
 
-    function changeQuestion($ID, $userID, $categoryID, $descr, $status) {
+    /*Изменяет вопрос в базе данных*/
+    function changeQuestion($ID, $userID, $categoryID, $descr, $status)
+    {
 
         $query_text = "
         UPDATE questions
@@ -246,12 +271,14 @@ class adminQuery {
         $params['par_descr'] = $descr;
         $params['par_status'] = $status;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params, FALSE);
 
     }
 
-    function deleteQuestion($qID) {
+    /*Удаляет вопрос из базы данных*/
+    function deleteQuestion($qID)
+    {
 
         $query_text = "
         DELETE
@@ -264,12 +291,14 @@ class adminQuery {
 
         $params['par_qID'] = $qID;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection -> execQuery($params, FALSE);
 
     }
 
-        function getQuestionWithoutAnswer() {
+    /*Получает из базы данных перечень вопросов без ответа*/
+    function getQuestionWithoutAnswer()
+    {
 
         $query_text = "
         SELECT
@@ -287,13 +316,14 @@ class adminQuery {
         ORDER BY
             questions.qdate";
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery();
 
     }
 
-
-    function addAnswer($questionID, $descr) {
+    /*Добавляет ответ на вопрос в базу данных*/
+    function addAnswer($questionID, $descr)
+    {
 
         $query_text = "
         INSERT INTO answers
@@ -305,12 +335,14 @@ class adminQuery {
         $params['par_questionID'] = $questionID;
         $params['par_descr'] = $descr;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params, FALSE);
 
     }
 
-    function changeAnswer($ID, $answer) {
+    /*Изменяет ответ в базе данных*/
+    function changeAnswer($ID, $answer)
+    {
 
         $query_text = "
         UPDATE answers
@@ -324,12 +356,14 @@ class adminQuery {
         $params['par_ID'] = $ID;
         $params['par_answer'] = $answer;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params, FALSE);
 
     }
 
-    function deleteAnswer($ID) {
+    /*Удаляет ответ из базы данных*/
+    function deleteAnswer($ID)
+    {
 
         $query_text = "
         DELETE
@@ -340,13 +374,14 @@ class adminQuery {
 
         $params['par_ID'] = $ID;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection -> execQuery($params, FALSE);
 
     }
 
-
-    function getUserList() {
+    /*Получает список пользователей из базы данных*/
+    function getUserList()
+    {
 
         $query_text = "
         SELECT
@@ -356,12 +391,14 @@ class adminQuery {
         FROM users
         ";
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection -> execQuery();
 
     }
 
-    function checkUser($login, $pass) {
+    /*Сверяет пароль введенный администратором в браузере с паролем в базе данных*/
+    function checkUser($login, $pass)
+    {
 
         $query_text = "
         SELECT
@@ -372,7 +409,7 @@ class adminQuery {
 
         $params['par_login'] = $login;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $admin = $connection ->execQuery($params);
 
         if (!empty($admin)) {

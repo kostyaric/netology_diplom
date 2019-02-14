@@ -1,8 +1,11 @@
 <?php
 
-class userQuery {
+class UserQuery
+{
 
-    function getContent() {
+    /*Получает список вопросов-ответов из базы данных и формирует из них массив для вывода*/
+    function getContent()
+    {
 
         $query_text = "
         SELECT
@@ -26,7 +29,7 @@ class userQuery {
             , answers.adate";
 
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $arr_content = $connection ->execQuery();
 
         $content = [];
@@ -45,7 +48,9 @@ class userQuery {
         return $content;
     }
 
-    function getCategoryList() {
+    /*Получает список категорий для поля выбора*/
+    function getCategoryList()
+    {
 
         $query_text = "
         SELECT
@@ -55,12 +60,14 @@ class userQuery {
         ORDER BY
             categorys.descr";
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery();
 
     }
 
-    function createUser($name, $email) {
+    /*Вносит в базу данные пользователя задавшего вопрос*/
+    function createUser($name, $email)
+    {
 
         $query_text = "
         INSERT INTO
@@ -72,13 +79,14 @@ class userQuery {
         $user_params['par_name'] = $name;
         $user_params['par_email'] = $email;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($user_params, FALSE);
 
     }
 
-
-    function getUserByMail($email) {
+    /*Получает данные пользователя из базы данных по его адресу электронной почты*/
+    function getUserByMail($email)
+    {
 
         $query_text = "
         SELECT
@@ -91,12 +99,14 @@ class userQuery {
 
         $params['par_email'] = $email;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         return $connection ->execQuery($params);
 
     }
 
-    function saveQuestion($category, $name, $email, $question) {
+    /*Сохраняет заданный вопрос в базе данных*/
+    function saveQuestion($category, $name, $email, $question)
+    {
 
         $user = $this->getUserByMail($email);
 
@@ -118,7 +128,7 @@ class userQuery {
         $params['par_categoryID'] = $category;
         $params['par_descr'] = $question;
 
-        $connection = new pdoConnection($query_text);
+        $connection = new Connect($query_text);
         $connection ->execQuery($params, FALSE);
 
     }

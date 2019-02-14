@@ -1,12 +1,12 @@
 <?php
 
-include_once __DIR__ . '/model/admin_query.php';
-include_once __DIR__ . '/model/connect.php';
-include_once __DIR__ . '/controllers/admincontrol.php';
+include_once __DIR__ . '/model/AdminQuery.php';
+include_once __DIR__ . '/model/Connect.php';
+include_once __DIR__ . '/controllers/AdminControl.php';
 
 session_start();
-$query = new adminQuery();
-$controller = new admincontrol();
+$query = new AdminQuery();
+$controller = new AdminControl();
 
 if (isset($_SESSION['name'])) {
 

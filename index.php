@@ -1,9 +1,9 @@
 <?php
-include_once __DIR__ . '/model/user_query.php';
-include_once __DIR__ . '/controllers/usercontrol.php';
-include_once __DIR__ . '/model/connect.php';
+include_once __DIR__ . '/model/UserQuery.php';
+include_once __DIR__ . '/controllers/UserControl.php';
+include_once __DIR__ . '/model/Connect.php';
 
-$controller = new usercontrol();
+$controller = new UserControl();
 
 if (!empty($_POST)) {
 
